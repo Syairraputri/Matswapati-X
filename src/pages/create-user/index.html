@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matswapati X</title>
+    <script
+      src="https://kit.fontawesome.com/216b2461f6.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/pages/create-user/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <!-- add user -->
+    <div id="card-content">
+      <div id="card-title">
+        <h3><b>Buat akun</b></h3>
+        <hr width="55px" size="7" color="aqua" />
+        <div class="container">
+          <form class="form-add-user">
+            <table>
+              <tr>
+                <td><i class="fa-solid fa-user"></i></td>
+                <td>Nama</td>
+                <td><input type="text" name="nama" /></td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-user"></i></td>
+                <td>Username</td>
+                <td><input type="text" name="nama" /></td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-building-columns"></i></td>
+                <td>Instansi</td>
+                <td><input type="text" name="nama" /></td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-envelope"></i></td>
+                <td>Email</td>
+                <td><input type="email" name="email" /></td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-circle-nodes"></i></td>
+                <td>Role</td>
+                <td><input type="text" name="nama" /></td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-building-columns"></i></td>
+                <td>Fitur</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="Fitur"
+                    value="atmospheric"
+                    checked
+                  />
+                  Atmospheric
+                  <input type="checkbox" name="Fitur" value="ocean" />
+                  Ocean
+                  <input type="checkbox" name="Fitur" value="fisherman" />
+                  Fisherman
+                  <input type="checkbox" name="Fitur" value="transportation" />
+                  Transportation
+                  <tr>
+                    <td><i class="fa-solid fa-unlock"></i></td>
+                    <td>Password</td>
+                    <td><input type="password" name="nama" /></td>
+                  </tr>
+                </td>
+              </tr>
+            </table>
+
+            <button type="submit">Simpan</button>
+            <button type="button">
+              <a href="/pages/login/">Batal</a>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <p><b>&copy;</b> BRIN,Hak cipta dilindungi.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module">
+      const formAddUser = document.querySelector('.form-add-user');
+      formAddUser.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const eventTarget = e.target;
+        const nameValue = eventTarget['0'].value;
+        const unameValue = eventTarget['1'].value
+          .split('')
+          .filter((char) => char !== ' ')
+          .join('')
+          .toLowerCase();
+        const uAgencyValue = eventTarget['2'].value;
+        const uEmailValue = eventTarget['3'].value
+          .split('')
+          .filter((char) => char !== ' ')
+          .join('')
+          .toLowerCase();
+        const uRoleValue = eventTarget['4'].value;
+        const atmosphereValue = eventTarget['5'].checked;
+        const oceanValue = eventTarget['6'].checked;
+        const fishermanValue = eventTarget['7'].checked;
+        const transportationValue = eventTarget['8'].checked;
+        const uPwdValue = eventTarget['9'].value;
+
+        const inputTextEmpty =
+          nameValue === '' ||
+          unameValue === '' ||
+          uAgencyValue === '' ||
+          uEmailValue === '' ||
+          uRoleValue === '' ||
+          uPwdValue === '';
+
+        const fiturEmpty =
+          !atmosphereValue &&
+          !transportationValue &&
+          !oceanValue &&
+          !fishermanValue;
+
+        if (inputTextEmpty) return alert('Isi seluruh form dengan benar.');
+        if (fiturEmpty)
+          return alert('Mohon untuk pilih salah satu atau semua fitur.');
+
+        const usersLocalStorage = JSON.parse(
+          window.localStorage.getItem('users')
+        );
+
+        usersLocalStorage.push({
+          name: nameValue,
+          username: unameValue,
+          agency: uAgencyValue,
+          email: uEmailValue,
+          role: uRoleValue,
+          password: uPwdValue,
+          feature: {
+            atmosphere: atmosphereValue,
+            ocean: oceanValue,
+            transportation: transportationValue,
+            fisherman: fishermanValue,
+          },
+        });
+
+        window.localStorage.setItem('users', JSON.stringify(usersLocalStorage));
+
+        window.location.replace('/pages/login/');
+      });
+    </script>
+  </body>
+</html>
